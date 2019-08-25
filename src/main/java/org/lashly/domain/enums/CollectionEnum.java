@@ -1,4 +1,4 @@
-package constant;
+package org.lashly.domain.enums;
 
 /**
  * 
@@ -11,6 +11,10 @@ public enum CollectionEnum {
 	
 	CollectionEnum(String serviceName) {
 		this.serviceName = serviceName;
+	}
+	
+	public String getServiceName() {
+		return serviceName;
 	}
 
 }
