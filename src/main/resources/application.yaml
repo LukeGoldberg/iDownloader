@@ -1,9 +1,12 @@
+server:
+  port: 9068
+
 spring:
-  datasource:
-    driver-class-name=com.mysql.jdbc.Driver
-    url=jdbc:mysql://localhost:3306/some_db
-    username=root
-    password=root
+  datasource: 
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/some_db
+    username: root
+    password: root
   data:
     mongodb:
       host: 127.0.0.1

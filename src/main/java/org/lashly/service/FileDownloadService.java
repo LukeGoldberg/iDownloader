@@ -12,6 +12,12 @@ public class FileDownloadService {
 	@Autowired
 	private FileDescriptor fileDescriptor;	
 	
+	/**
+	 * find file
+	 * 
+	 * @param fileId file's MongoDB ID
+	 * @return file descriptor
+	 */
 	public Optional<FileDescriptor> findFile(String fileId) {
 		return fileDescriptor.init(fileId);
 	}

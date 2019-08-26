@@ -30,6 +30,12 @@ public class FileDescriptor {
 	private String fileId;
 	private GridFSFile gridFSFile;
 	
+	/**
+	 * initial this class
+	 * 
+	 * @param fileId file's MongoDB ID 
+	 * @return file descriptor
+	 */
 	public Optional<FileDescriptor> init(String fileId) {
 		this.fileId = fileId;
 		this.gridFSFile =
@@ -40,13 +46,27 @@ public class FileDescriptor {
 		return Optional.of(this);
 	}
 	
+	/**
+	 * get file's inputstream
+	 * 
+	 * @param requestEtagOpt ETag header
+	 * @param ifModifiedSinceOpt if modifid since header
+	 * @return inputstream
+	 */
 	public ResponseEntity<Resource> getFile(Optional<String> requestEtagOpt, Optional<Date> ifModifiedSinceOpt) {
 		if (checkCache(requestEtagOpt, ifModifiedSinceOpt)) {
 			return getResponse(HttpStatus.NOT_MODIFIED, null);
 		}
-		return getResponse(HttpStatus.OK, getFile());
+		return getResponse(HttpStatus.OK, getFileResource());
 	}
 	
+	/**
+	 * check if file'content has been modified
+	 * 
+	 * @param requestEtagOpt ETag header
+	 * @param ifModifiedSinceOpt if modified since header
+	 * @return true or not
+	 */
 	private boolean checkCache(Optional<String> requestEtagOpt, Optional<Date> ifModifiedSinceOpt) {
 		if (gridFSFile == null) {
 			return false;
@@ -55,12 +75,17 @@ public class FileDescriptor {
 				.map(val -> StringUtils.equals(val, gridFSFile.getMD5()))
 				.orElse(false);
 		boolean ifModifiedEquals = ifModifiedSinceOpt
-				.map(val -> val.before(new Date()))
+				.map(val -> val.before(gridFSFile.getUploadDate()))
 				.orElse(false);
 		return etagEquals || ifModifiedEquals;
 	}
 	
-	private InputStreamResource getFile() {
+	/**
+	 * get file's inputstream
+	 * 
+	 * @return inputstream
+	 */
+	private InputStreamResource getFileResource() {
 		InputStream inputStream;
 		try {
 			inputStream = gridFsTemplate.getResource(gridFSFile).getInputStream();
@@ -71,6 +96,13 @@ public class FileDescriptor {
 		return new InputStreamResource(throttlingInputStream);
 	}
 	
+	/**
+	 * generate one <code>ResponseEntity</code>
+	 * 
+	 * @param status HttpStatus
+	 * @param body body
+	 * @return ResponseEntity
+	 */
 	private ResponseEntity<Resource> getResponse(HttpStatus status, Resource body) {
 		final ResponseEntity.BodyBuilder responseBuilder = ResponseEntity
 				.status(status)

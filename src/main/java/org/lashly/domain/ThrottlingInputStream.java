@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.Semaphore;
 
+/**
+ * custom <code>InputStream</code> for throttle 
+ */
 public class ThrottlingInputStream extends InputStream {
 
 	private static final int ONE_MB = 1024 * 1024;

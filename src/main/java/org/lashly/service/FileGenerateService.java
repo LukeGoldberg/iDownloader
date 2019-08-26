@@ -30,6 +30,14 @@ public class FileGenerateService {
 	private static ExecutorService executor = 
 			Executors.newFixedThreadPool(POLL_SIZE);
 	
+	/**
+	 * 1. collection data using <code>CollectionService</code>;
+	 * 2. store into MongoDB;
+	 * 3. generate one record for download page.
+	 * 
+	 * @param collector <code>CollectionService</code>
+	 * @param dto dto
+	 */
 	public void generateFile(CollectionEnum collector, BaseDto dto) {
 		executor.execute(() -> {
 			// 1. collect data;

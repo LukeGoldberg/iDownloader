@@ -1,7 +1,8 @@
 package org.lashly.domain.enums;
 
 /**
- * 
+ * enum for map collection service, serviceName should be the name of 
+ * a sub class implemented <code>CollectionService</code>
  */
 public enum CollectionEnum {
 	

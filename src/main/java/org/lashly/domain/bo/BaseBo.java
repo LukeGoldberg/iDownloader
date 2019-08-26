@@ -5,6 +5,9 @@ import java.util.Date;
 
 import lombok.Data;
 
+/**
+ * base bo
+ */
 @Data
 public class BaseBo implements Serializable {
 

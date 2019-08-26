@@ -8,6 +8,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CollectionRecordDao {
 
+	/**
+	 * save data collection record
+	 * 
+	 * @param bo record entity
+	 * @return ID
+	 */
 	Integer saveCollectionRecord(CollectionRecordBo bo);
 	
 }
