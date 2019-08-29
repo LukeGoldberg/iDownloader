@@ -1,14 +1,14 @@
-package org.lashly.domain.bo;
+package org.lashly.domain.dos;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * data collection bo
+ * data collection dos
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CollectionRecordBo extends BaseBo {
+public class CollectionRecordDo extends BaseDo {
 
 	private String fileName;
 	

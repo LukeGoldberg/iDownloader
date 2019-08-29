@@ -15,10 +15,12 @@ public class ExcelHelper {
 	 * generate excel
 	 * 
 	 * @param dto dto
+	 * @return MongoDB ID
 	 */
-	public void generateExcel(SearchResultDto dto) {
+	public String generateExcel(SearchResultDto dto) {
 		// generate excel;
 		// store into mongodb.
+		return "2347823u9ryhshndfcwerf2iojfrihweoj";
 	}
 	
 }

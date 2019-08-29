@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.lashly.dao.BookDao">
+
+    <resultMap id="baseResultMap" type="org.lashly.domain.dto.BookDto">
+        <id column="id" property="id"/>
+        <result column="book_name" property="bookName"/>
+    </resultMap>
+
+    <select id="findBooks" parameterType="org.lashly.domain.dto.BookSearchDto" resultMap="baseResultMap">
+        select * from book
+        where book_name = #{bookName, jdbcType=VARCHAR}
+    </select>
+
+</mapper>

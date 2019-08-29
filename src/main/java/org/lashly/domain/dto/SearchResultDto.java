@@ -1,8 +1,8 @@
 package org.lashly.domain.dto;
 
-import java.io.Serializable;
-
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * search result's dto

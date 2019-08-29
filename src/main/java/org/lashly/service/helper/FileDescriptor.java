@@ -1,10 +1,6 @@
 package org.lashly.service.helper;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
-import java.util.Optional;
-
+import com.mongodb.client.gridfs.model.GridFSFile;
 import org.apache.commons.lang3.StringUtils;
 import org.lashly.domain.ThrottlingInputStream;
 import org.lashly.domain.exceptions.BizException;
@@ -19,7 +15,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import com.mongodb.client.gridfs.model.GridFSFile;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.Optional;
 
 @Component
 public class FileDescriptor {
@@ -27,7 +26,6 @@ public class FileDescriptor {
 	@Autowired
 	private GridFsTemplate gridFsTemplate;
 	
-	private String fileId;
 	private GridFSFile gridFSFile;
 	
 	/**
@@ -37,11 +35,10 @@ public class FileDescriptor {
 	 * @return file descriptor
 	 */
 	public Optional<FileDescriptor> init(String fileId) {
-		this.fileId = fileId;
 		this.gridFSFile =
 				gridFsTemplate.findOne(
 						new Query()
-						.addCriteria(Criteria.where("id").is(fileId))
+						.addCriteria(Criteria.where("_id").is(fileId))
 						);
 		return Optional.of(this);
 	}
@@ -49,35 +46,35 @@ public class FileDescriptor {
 	/**
 	 * get file's inputstream
 	 * 
-	 * @param requestEtagOpt ETag header
+	 * @param requestETagOpt ETag header
 	 * @param ifModifiedSinceOpt if modifid since header
 	 * @return inputstream
 	 */
-	public ResponseEntity<Resource> getFile(Optional<String> requestEtagOpt, Optional<Date> ifModifiedSinceOpt) {
-		if (checkCache(requestEtagOpt, ifModifiedSinceOpt)) {
-			return getResponse(HttpStatus.NOT_MODIFIED, null);
+	public ResponseEntity<Resource> getFile(String requestETagOpt, Date ifModifiedSinceOpt) {
+		if (checkCache(requestETagOpt, ifModifiedSinceOpt)) {
+			return generateResponse(HttpStatus.NOT_MODIFIED, null);
 		}
-		return getResponse(HttpStatus.OK, getFileResource());
+		return generateResponse(HttpStatus.OK, getFileResource());
 	}
 	
 	/**
 	 * check if file'content has been modified
 	 * 
-	 * @param requestEtagOpt ETag header
+	 * @param requestETagOpt ETag header
 	 * @param ifModifiedSinceOpt if modified since header
 	 * @return true or not
 	 */
-	private boolean checkCache(Optional<String> requestEtagOpt, Optional<Date> ifModifiedSinceOpt) {
+	private boolean checkCache(String requestETagOpt, Date ifModifiedSinceOpt) {
 		if (gridFSFile == null) {
 			return false;
 		}
-		boolean etagEquals = requestEtagOpt
+		boolean eTagEquals = Optional.of(requestETagOpt)
 				.map(val -> StringUtils.equals(val, gridFSFile.getMD5()))
 				.orElse(false);
-		boolean ifModifiedEquals = ifModifiedSinceOpt
+		boolean ifModifiedEquals = Optional.of(ifModifiedSinceOpt)
 				.map(val -> val.before(gridFSFile.getUploadDate()))
 				.orElse(false);
-		return etagEquals || ifModifiedEquals;
+		return eTagEquals || ifModifiedEquals;
 	}
 	
 	/**
@@ -103,7 +100,7 @@ public class FileDescriptor {
 	 * @param body body
 	 * @return ResponseEntity
 	 */
-	private ResponseEntity<Resource> getResponse(HttpStatus status, Resource body) {
+	private ResponseEntity<Resource> generateResponse(HttpStatus status, Resource body) {
 		final ResponseEntity.BodyBuilder responseBuilder = ResponseEntity
 				.status(status)
 				.eTag(gridFSFile.getMD5())

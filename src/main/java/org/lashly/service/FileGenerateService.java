@@ -1,17 +1,18 @@
 package org.lashly.service;
 
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import org.lashly.dao.CollectionRecordDao;
-import org.lashly.domain.bo.CollectionRecordBo;
+import org.lashly.domain.dos.CollectionRecordDo;
 import org.lashly.domain.dto.BaseDto;
 import org.lashly.domain.dto.SearchResultDto;
 import org.lashly.domain.enums.CollectionEnum;
 import org.lashly.service.helper.ExcelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 public class FileGenerateService {
@@ -40,14 +41,15 @@ public class FileGenerateService {
 	 */
 	public void generateFile(CollectionEnum collector, BaseDto dto) {
 		executor.execute(() -> {
-			// 1. collect data;
-			CollectionService collectionService = 
+			CollectionService collectionService =
 					serviceMap.get(collector.getServiceName());
 			SearchResultDto resultDto = collectionService.collect(dto);
-			// 2. generator excel;
-			excelHelper.generateExcel(resultDto);
-			// 3. generate collection record.
-			CollectionRecordBo recordBo = new CollectionRecordBo();
+			String mongoId = excelHelper.generateExcel(resultDto);
+			Calendar calendar = Calendar.getInstance();
+			CollectionRecordDo recordBo = new CollectionRecordDo();
+			recordBo.setMongoId(mongoId);
+			recordBo.setFileName(collector.toString() +
+                    calendar.get(Calendar.DAY_OF_YEAR) + calendar.get(Calendar.HOUR_OF_DAY));
 			collectionRecordDao.saveCollectionRecord(recordBo);
 		});
 	}

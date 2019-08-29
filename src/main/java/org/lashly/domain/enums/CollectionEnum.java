@@ -6,7 +6,7 @@ package org.lashly.domain.enums;
  */
 public enum CollectionEnum {
 	
-	BOOK("BookCollector");
+	BOOK("bookCollector");
 	
 	private String serviceName;
 	

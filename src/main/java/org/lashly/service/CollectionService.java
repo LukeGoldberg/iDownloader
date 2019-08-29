@@ -1,5 +1,6 @@
 package org.lashly.service;
 
+import org.lashly.domain.dto.BaseDto;
 import org.lashly.domain.dto.SearchResultDto;
 
 /**
@@ -12,6 +13,6 @@ public interface CollectionService {
 	 * 
 	 * @param dto query
 	 */
-	<T> SearchResultDto collect(T dto);
+	SearchResultDto collect(BaseDto dto);
 
 }

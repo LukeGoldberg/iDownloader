@@ -1,4 +1,4 @@
-package org.lashly.domain.bo;
+package org.lashly.domain.dos;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -6,10 +6,10 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * base bo
+ * base dos
  */
 @Data
-public class BaseBo implements Serializable {
+class BaseDo implements Serializable {
 
 	private static final long serialVersionUID = -1L;
 	

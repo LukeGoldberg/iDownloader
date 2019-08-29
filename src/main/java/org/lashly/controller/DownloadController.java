@@ -3,17 +3,19 @@ package org.lashly.controller;
 import static org.springframework.http.HttpHeaders.IF_MODIFIED_SINCE;
 import static org.springframework.http.HttpHeaders.IF_NONE_MATCH;
 
+import java.util.Collections;
 import java.util.Date;
-import java.util.Optional;
+import java.util.List;
 
+import org.lashly.domain.dos.CollectionRecordDo;
+import org.lashly.domain.dto.SearchResultDto;
 import org.lashly.service.FileDownloadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * download request
@@ -24,20 +26,18 @@ public class DownloadController {
 	
 	@Autowired
 	private FileDownloadService fileDownloadService;
-	
-	@RequestMapping("list")
-	public ResponseEntity<Resource> downloadList() {
-		return null;
+
+	@RequestMapping(value = "list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public List<CollectionRecordDo> downloadList(Integer pageNumber, Integer pageSize) {
+        return fileDownloadService.listCollectionRecords(pageNumber, pageSize);
 	}
 	
-	@RequestMapping(value = "{fileId}")
+	@RequestMapping(value = "/file/{fileId}", method = {RequestMethod.POST, RequestMethod.HEAD}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Resource> download(
 			@PathVariable("fileId") String fileId,
-			@RequestHeader(IF_NONE_MATCH) Optional<String> requestEtagOpt,
-			@RequestHeader(IF_MODIFIED_SINCE) Optional<Date> ifModifiedSinceOpt) {
-		return fileDownloadService.findFile(fileId)
-				.get()
-				.getFile(requestEtagOpt, ifModifiedSinceOpt);
+			@RequestHeader(IF_NONE_MATCH) String requestETagOpt,
+			@RequestHeader(IF_MODIFIED_SINCE) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date ifModifiedSinceOpt) {
+		return fileDownloadService.findFile(fileId, requestETagOpt, ifModifiedSinceOpt);
 	}
 
 }
