@@ -23,25 +23,34 @@ import java.util.Optional;
 @Component
 public class FileDescriptor {
 	
-	@Autowired
 	private GridFsTemplate gridFsTemplate;
-	
+
 	private GridFSFile gridFSFile;
-	
+
+	private boolean inited;
+
+    @Autowired
+    public FileDescriptor(GridFsTemplate gridFsTemplate) {
+        this.gridFsTemplate = gridFsTemplate;
+    }
+
 	/**
 	 * initial this class
 	 * 
 	 * @param fileId file's MongoDB ID 
 	 * @return file descriptor
 	 */
-	public Optional<FileDescriptor> init(String fileId) {
+	public FileDescriptor init(String fileId) {
 		this.gridFSFile =
-				gridFsTemplate.findOne(
-						new Query()
-						.addCriteria(Criteria.where("_id").is(fileId))
-						);
-		return Optional.of(this);
+				gridFsTemplate.findOne(new Query().addCriteria(Criteria.where("_id").is(fileId)));
+				gridFsTemplate.findOne(new Query().addCriteria(Criteria.where("x").is(1)));
+		inited = (this.gridFSFile != null);
+		return this;
 	}
+
+	public boolean inited() {
+	    return inited;
+    }
 	
 	/**
 	 * get file's inputstream

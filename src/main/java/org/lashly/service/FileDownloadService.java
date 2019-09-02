@@ -2,6 +2,7 @@ package org.lashly.service;
 
 import org.lashly.dao.CollectionRecordDao;
 import org.lashly.domain.dos.CollectionRecordDo;
+import org.lashly.domain.dto.DownloadRecordListDto;
 import org.lashly.domain.exceptions.BizException;
 import org.lashly.service.helper.FileDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,22 +34,21 @@ public class FileDownloadService {
 	 * @return file descriptor
 	 */
 	public ResponseEntity<Resource> findFile(String fileId, String requestETagOpt, Date ifModifiedSinceOpt) {
-		Optional<FileDescriptor> fileDescriptorOpt = fileDescriptor.init(fileId);
-		if (!fileDescriptorOpt.isPresent()) {
+		FileDescriptor fileDesc = fileDescriptor.init(fileId);
+		if (!fileDesc.inited()) {
 			throw new BizException("file not exist");
 		}
-		return fileDescriptorOpt.get().getFile(requestETagOpt, ifModifiedSinceOpt);
+		return fileDesc.getFile(requestETagOpt, ifModifiedSinceOpt);
 	}
 
     /**
      * list collection record
      *
-     * @param pageNumber page number
-     * @param pageSize page size
-     * @return collection record list
+     * @param dto download record list dto
+     * * @return collection record list
      */
-	public List<CollectionRecordDo> listCollectionRecords(Integer pageNumber, Integer pageSize) {
-        return collectionRecordDao.findCollectionRecords(pageNumber, pageSize);
+	public List<CollectionRecordDo> listCollectionRecords(DownloadRecordListDto dto) {
+        return collectionRecordDao.findCollectionRecords(dto.getPageNumber(), dto.getPageSize());
     }
 
 }

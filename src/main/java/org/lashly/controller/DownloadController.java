@@ -1,14 +1,7 @@
 package org.lashly.controller;
 
-import static org.springframework.http.HttpHeaders.IF_MODIFIED_SINCE;
-import static org.springframework.http.HttpHeaders.IF_NONE_MATCH;
-
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
 import org.lashly.domain.dos.CollectionRecordDo;
-import org.lashly.domain.dto.SearchResultDto;
+import org.lashly.domain.dto.DownloadRecordListDto;
 import org.lashly.service.FileDownloadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -16,6 +9,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
+
+import static org.springframework.http.HttpHeaders.IF_MODIFIED_SINCE;
+import static org.springframework.http.HttpHeaders.IF_NONE_MATCH;
 
 /**
  * download request
@@ -28,8 +27,8 @@ public class DownloadController {
 	private FileDownloadService fileDownloadService;
 
 	@RequestMapping(value = "list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public List<CollectionRecordDo> downloadList(Integer pageNumber, Integer pageSize) {
-        return fileDownloadService.listCollectionRecords(pageNumber, pageSize);
+	public List<CollectionRecordDo> downloadList(DownloadRecordListDto dto) {
+        return fileDownloadService.listCollectionRecords(dto);
 	}
 	
 	@RequestMapping(value = "/file/{fileId}", method = {RequestMethod.POST, RequestMethod.HEAD}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)

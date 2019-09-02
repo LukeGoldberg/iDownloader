@@ -11,6 +11,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 public class DownloadControllerTest extends ApplicationTests {
@@ -33,7 +38,7 @@ public class DownloadControllerTest extends ApplicationTests {
                 MockMvcRequestBuilders.get("/download/list")
                         .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                         .param("pageNumber", "0")
-                        .param("pageSize", "10")
+//                        .param("pageSize", "10")
         ).andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(print());
     }
@@ -43,7 +48,7 @@ public class DownloadControllerTest extends ApplicationTests {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/download/file/2347823u9ryhshndfcwerf2iojfrihweoj")
                         .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                        .header("If-None-Match", "234823y4982urihdwe9yu23")
+                        .header("If-None-Match", "5d6cebc7beeb3594fe5cae6a")
                         .header("If-Modified-Since", "2019-01-31 14:33:00")
         ).andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(print());

@@ -1,6 +1,7 @@
 package org.lashly.mvc;
 
 import org.lashly.domain.RespResult;
+import org.lashly.domain.exceptions.BizException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,19 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ExceptionInterceptor {
 
-	@ExceptionHandler(Throwable.class)
+	@ExceptionHandler(BizException.class)
 	@ResponseBody
-	public RespResult handleException(Throwable thrown) {
-		log.info("exception message : {}", thrown.getMessage());
-		if (thrown instanceof RuntimeException) {
-            RespResult result = new RespResult();
-            result.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            result.setMessage("system error");
-            return result;
-        }
-		RespResult result = new RespResult();
-		result.setCode(HttpStatus.OK.value());
-		result.setMessage(thrown.getMessage());
+	public RespResult handleException(BizException thrown) {
+		log.info("exception message : {}", thrown.getInfo());
+        RespResult result = new RespResult();
+        result.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        result.setMessage("system error");
 		return result;
 	}
 	

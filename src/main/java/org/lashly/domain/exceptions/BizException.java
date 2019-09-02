@@ -5,10 +5,14 @@ package org.lashly.domain.exceptions;
  */
 public class BizException extends RuntimeException {
 	
-	private String msg;
+	private String info;
 	
-	public BizException(String msg) {
-		this.msg = msg;
+	public BizException(String info) {
+		this.info = info;
 	}
+
+	public String getInfo() {
+	    return info;
+    }
 
 }

@@ -26,8 +26,10 @@ public class QueryValidationAspect {
         Object[] args = joinPoint.getArgs();
         if (args.length > 0) {
             Object arg = args[0];
+System.out.println(">................." + arg);
             if (arg != null) {
                 Set<ConstraintViolation<Object>> violations = VALIDATOR.validate(args);
+System.out.println(">............." + violations.size());
                 violations.forEach(v -> {throw new BizException(v.getMessage());});
             }
         }
