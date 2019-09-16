@@ -6,8 +6,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * @author BG343091
- * Date  2019/8/29 14:16
+ * Date  2019/8/29 23:16
  */
 @SpringBootTest
 @Transactional

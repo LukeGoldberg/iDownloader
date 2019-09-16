@@ -35,7 +35,7 @@ public class FileDownloadService {
 	 */
 	public ResponseEntity<Resource> findFile(String fileId, String requestETagOpt, Date ifModifiedSinceOpt) {
 		FileDescriptor fileDesc = fileDescriptor.init(fileId);
-		if (!fileDesc.inited()) {
+		if (!fileDesc.initialed()) {
 			throw new BizException("file not exist");
 		}
 		return fileDesc.getFile(requestETagOpt, ifModifiedSinceOpt);

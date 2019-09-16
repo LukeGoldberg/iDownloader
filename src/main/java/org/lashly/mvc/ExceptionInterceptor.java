@@ -13,10 +13,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ExceptionInterceptor {
 
-	@ExceptionHandler(BizException.class)
+	@ExceptionHandler(Throwable.class)
 	@ResponseBody
-	public RespResult handleException(BizException thrown) {
-		log.info("exception message : {}", thrown.getInfo());
+	public RespResult handleException(Throwable thrown) {
+	    if (thrown instanceof BizException) {
+	        BizException e = (BizException) thrown;
+            log.info("exception message : {}", e.getInfo());
+            RespResult result = new RespResult();
+            result.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            result.setMessage(e.getInfo());
+            return result;
+        }
+		log.info("exception message : {}", thrown.getMessage());
         RespResult result = new RespResult();
         result.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         result.setMessage("system error");

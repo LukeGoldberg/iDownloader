@@ -23,8 +23,12 @@ import static org.springframework.http.HttpHeaders.IF_NONE_MATCH;
 @RequestMapping("/download")
 public class DownloadController {
 	
-	@Autowired
 	private FileDownloadService fileDownloadService;
+
+	@Autowired
+	public DownloadController(FileDownloadService fileDownloadService) {
+		this.fileDownloadService = fileDownloadService;
+	}
 
 	@RequestMapping(value = "list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<CollectionRecordDo> downloadList(DownloadRecordListDto dto) {

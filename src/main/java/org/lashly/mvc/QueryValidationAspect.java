@@ -12,8 +12,7 @@ import javax.validation.Validator;
 import java.util.Set;
 
 /**
- * @author BG343091
- * Date  2019/8/28 15:54
+ * Date  2019/8/28 21:54
  */
 @Aspect
 @Component
@@ -21,15 +20,13 @@ public class QueryValidationAspect {
 
     private final static Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
 
-    @Before("execution(public * org.lashly.controller..*Controller.*(..))")
+    @Before("execution(public * org.lashly.controller..*.*(..))")
     public void validate(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         if (args.length > 0) {
             Object arg = args[0];
-System.out.println(">................." + arg);
             if (arg != null) {
-                Set<ConstraintViolation<Object>> violations = VALIDATOR.validate(args);
-System.out.println(">............." + violations.size());
+                Set<ConstraintViolation<Object>> violations = VALIDATOR.validate(arg);
                 violations.forEach(v -> {throw new BizException(v.getMessage());});
             }
         }

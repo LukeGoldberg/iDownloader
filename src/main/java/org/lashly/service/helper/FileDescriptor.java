@@ -27,7 +27,7 @@ public class FileDescriptor {
 
 	private GridFSFile gridFSFile;
 
-	private boolean inited;
+	private boolean initialed;
 
     @Autowired
     public FileDescriptor(GridFsTemplate gridFsTemplate) {
@@ -43,15 +43,17 @@ public class FileDescriptor {
 	public FileDescriptor init(String fileId) {
 		this.gridFSFile =
 				gridFsTemplate.findOne(new Query().addCriteria(Criteria.where("_id").is(fileId)));
-				gridFsTemplate.findOne(new Query().addCriteria(Criteria.where("x").is(1)));
-		inited = (this.gridFSFile != null);
+
+System.out.println(">............." + gridFSFile);
+
+		initialed = gridFSFile != null;
 		return this;
 	}
 
-	public boolean inited() {
-	    return inited;
+	public boolean initialed() {
+	    return initialed;
     }
-	
+
 	/**
 	 * get file's inputstream
 	 * 

@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/collect")
 public class CollectController {
 	
-	@Autowired
 	private FileGenerateService fileGenerateService;
+
+	@Autowired
+	public CollectController(FileGenerateService fileGenerateService) {
+		this.fileGenerateService = fileGenerateService;
+	}
 	
 	@RequestMapping(value = "book", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public void collectBooks(@RequestBody BookSearchDto bookSearchDto) {

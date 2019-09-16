@@ -31,7 +31,7 @@ public class ThrottlingInputStream extends InputStream {
 		    maxBytesPerSecond.acquire(1);
 		    result = target.read();
 		} catch (InterruptedException e) {
-			// cause this exception is from Semaphore.acquiry(..),
+			// cause this exception is from Semaphore.acquire(..),
 			// ignore throttle when is interrupted.
 			result = target.read();
 		} finally {
