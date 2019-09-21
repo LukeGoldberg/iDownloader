@@ -1,8 +1,9 @@
 package org.lashly.domain;
 
+import com.revinate.guava.util.concurrent.RateLimiter;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.Semaphore;
 
 /**
  * custom <code>InputStream</code> for throttle 
@@ -10,62 +11,38 @@ import java.util.concurrent.Semaphore;
 public class ThrottlingInputStream extends InputStream {
 
 	private static final int ONE_MB = 1024 * 1024;
+
+	private static final int ONE_KB = 1024;
 	
 	private final InputStream target;
-	private final Semaphore maxBytesPerSecond;
+	private final RateLimiter maxBytesPerSecond;
 	
 	public ThrottlingInputStream(InputStream target) {
 		this.target = target;
-		maxBytesPerSecond = new Semaphore(ONE_MB);
+		maxBytesPerSecond = RateLimiter.create(ONE_MB);
 	}
 	
 	public ThrottlingInputStream(InputStream target, int throttlingNumber) {
 		this.target = target;
-		maxBytesPerSecond = new Semaphore(throttlingNumber);
+		maxBytesPerSecond = RateLimiter.create(throttlingNumber * ONE_KB);
 	}
 	
 	@Override
 	public int read() throws IOException {
-		int result;
-		try {
-		    maxBytesPerSecond.acquire(1);
-		    result = target.read();
-		} catch (InterruptedException e) {
-			// cause this exception is from Semaphore.acquire(..),
-			// ignore throttle when is interrupted.
-			result = target.read();
-		} finally {
-			maxBytesPerSecond.release(1);
-		}
-		return result;
+	    maxBytesPerSecond.acquire(1);
+        return target.read();
 	}
 
 	@Override
 	public int read(byte[] b) throws IOException {
-		int result;
-		try {
-		    maxBytesPerSecond.acquire(b.length);
-		    result = target.read(b);
-		} catch(InterruptedException e) {
-			result = target.read(b);
-		} finally {
-			maxBytesPerSecond.release(b.length);
-		}
-		return result;
+		maxBytesPerSecond.acquire(b.length);
+	    return target.read(b);
 	}
 
 	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
-		int result;
-		try {
-			maxBytesPerSecond.acquire(len);
-			result = target.read(b, off, len);
-		} catch(InterruptedException e) {
-			result = target.read(b, off, len);
-		} finally {
-			maxBytesPerSecond.release(len);
-		}
-		return result;
+        maxBytesPerSecond.acquire(len);
+	    return target.read(b, off, len);
 	}
 
 	@Override

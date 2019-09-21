@@ -25,7 +25,14 @@ public class ExceptionInterceptor {
             return result;
         }
 		log.info("exception message : {}", thrown.getMessage());
-        RespResult result = new RespResult();
+
+
+
+	    thrown.printStackTrace();
+
+
+
+	    RespResult result = new RespResult();
         result.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         result.setMessage("system error");
 		return result;

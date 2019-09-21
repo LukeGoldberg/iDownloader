@@ -15,8 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Date;
 import java.util.Optional;
 
@@ -29,24 +28,21 @@ public class FileDescriptor {
 
 	private boolean initialed;
 
-    @Autowired
+	@Autowired
     public FileDescriptor(GridFsTemplate gridFsTemplate) {
-        this.gridFsTemplate = gridFsTemplate;
+		this.gridFsTemplate = gridFsTemplate;
     }
 
 	/**
 	 * initial this class
 	 * 
-	 * @param fileId file's MongoDB ID 
+	 * @param objectId MongoDB ObjectID
 	 * @return file descriptor
 	 */
-	public FileDescriptor init(String fileId) {
+	public FileDescriptor init(String objectId) {
 		this.gridFSFile =
-				gridFsTemplate.findOne(new Query().addCriteria(Criteria.where("_id").is(fileId)));
-
-System.out.println(">............." + gridFSFile);
-
-		initialed = gridFSFile != null;
+				gridFsTemplate.findOne(new Query().addCriteria(Criteria.where("_id").is(objectId)));
+		initialed = (gridFSFile != null);
 		return this;
 	}
 
@@ -76,15 +72,21 @@ System.out.println(">............." + gridFSFile);
 	 * @return true or not
 	 */
 	private boolean checkCache(String requestETagOpt, Date ifModifiedSinceOpt) {
-		if (gridFSFile == null) {
+		if (!initialed) {
 			return false;
 		}
-		boolean eTagEquals = Optional.of(requestETagOpt)
-				.map(val -> StringUtils.equals(val, gridFSFile.getMD5()))
-				.orElse(false);
-		boolean ifModifiedEquals = Optional.of(ifModifiedSinceOpt)
-				.map(val -> val.before(gridFSFile.getUploadDate()))
-				.orElse(false);
+		boolean eTagEquals = false;
+		if (StringUtils.isNotBlank(requestETagOpt)) {
+		    eTagEquals = Optional.of(requestETagOpt)
+                    .map(val -> StringUtils.equals(val, gridFSFile.getMD5()))
+                    .orElse(false);
+        }
+		boolean ifModifiedEquals = false;
+		if (ifModifiedSinceOpt != null) {
+		    ifModifiedEquals = Optional.of(ifModifiedSinceOpt)
+                    .map(val -> val.before(gridFSFile.getUploadDate()))
+                    .orElse(false);
+        }
 		return eTagEquals || ifModifiedEquals;
 	}
 	
@@ -116,9 +118,10 @@ System.out.println(">............." + gridFSFile);
 				.status(status)
 				.eTag(gridFSFile.getMD5())
 				.contentLength(gridFSFile.getLength())
-				.contentType(MediaType.valueOf(gridFSFile.getContentType()))
+				.contentType(MediaType.valueOf("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
 				.lastModified(gridFSFile.getUploadDate().getTime());
-		return responseBuilder.body(body);
+System.out.println(responseBuilder.body(body));
+        return responseBuilder.body(body);
 	}
 
 }

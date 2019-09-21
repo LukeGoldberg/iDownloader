@@ -5,7 +5,7 @@ import org.lashly.domain.dos.CollectionRecordDo;
 import org.lashly.domain.dto.BaseDto;
 import org.lashly.domain.dto.SearchResultDto;
 import org.lashly.domain.enums.CollectionEnum;
-import org.lashly.service.helper.ExcelHelper;
+import org.lashly.service.helper.MongoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class FileGenerateService {
 	private Map<String, CollectionService> serviceMap;
 	
 	@Autowired
-	private ExcelHelper excelHelper;
+	private MongoHelper excelHelper;
 	
 	@Autowired
 	private CollectionRecordDao collectionRecordDao;
@@ -44,10 +44,10 @@ public class FileGenerateService {
 			CollectionService collectionService =
 					serviceMap.get(collector.getServiceName());
 			SearchResultDto resultDto = collectionService.collect(dto);
-			String mongoId = excelHelper.generateExcel(resultDto);
+			String objecId = excelHelper.generateExcel(resultDto);
 			Calendar calendar = Calendar.getInstance();
 			CollectionRecordDo recordBo = new CollectionRecordDo();
-			recordBo.setMongoId(mongoId);
+			recordBo.setMongoId(objecId);
 			recordBo.setFileName(collector.toString() +
                     calendar.get(Calendar.DAY_OF_YEAR) + calendar.get(Calendar.HOUR_OF_DAY));
 			collectionRecordDao.saveCollectionRecord(recordBo);
