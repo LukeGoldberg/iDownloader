@@ -1,6 +1,10 @@
 package org.lashly.service.helper;
 
-import com.mongodb.client.gridfs.model.GridFSFile;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.Optional;
+
 import org.apache.commons.lang3.StringUtils;
 import org.lashly.domain.ThrottlingInputStream;
 import org.lashly.domain.exceptions.BizException;
@@ -15,9 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
-import java.util.Date;
-import java.util.Optional;
+import com.mongodb.client.gridfs.model.GridFSFile;
 
 @Component
 public class FileDescriptor {
@@ -120,7 +122,6 @@ public class FileDescriptor {
 				.contentLength(gridFSFile.getLength())
 				.contentType(MediaType.valueOf("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
 				.lastModified(gridFSFile.getUploadDate().getTime());
-System.out.println(responseBuilder.body(body));
         return responseBuilder.body(body);
 	}
 
