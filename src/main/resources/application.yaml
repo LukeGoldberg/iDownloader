@@ -32,7 +32,3 @@ spring:
 
 mybatis:
   mapperLocations: classpath:mappers/*.xml
-
-logging:
-  path: /logging-path 
-  file: iDownload.log

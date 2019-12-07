@@ -10,6 +10,7 @@ import org.lashly.domain.exceptions.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSBuckets;
@@ -38,7 +39,7 @@ public class MongoHelper {
 	public String generateFile(SearchResultDto dto) {
         String objectId = StringUtils.EMPTY;
         try {
-			FileInputStream in = new FileInputStream(new File("file.txt"));
+			FileInputStream in = new FileInputStream(ResourceUtils.getFile("classpath:file.txt"));
 			GridFSUploadStream gridFSUploadStream = gridFSBucket.openUploadStream(dto.getFileName());
 			byte[] buf = new byte[512];
 			while (in.read(buf) != -1) {
@@ -50,6 +51,7 @@ public class MongoHelper {
 			in.close();
 		} catch (IOException e) {
 			log.error(e.getCause() + " : " + e.getMessage());
+			e.printStackTrace();
 			throw new BizException("collect data failed");
 		}
 		return objectId;
