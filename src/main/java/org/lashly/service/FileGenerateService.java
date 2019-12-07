@@ -44,7 +44,7 @@ public class FileGenerateService {
 			CollectionService collectionService =
 					serviceMap.get(collector.getServiceName());
 			SearchResultDto resultDto = collectionService.collect(dto);
-			String objecId = excelHelper.generateExcel(resultDto);
+			String objecId = excelHelper.generateFile(resultDto);
 			Calendar calendar = Calendar.getInstance();
 			CollectionRecordDo recordBo = new CollectionRecordDo();
 			recordBo.setMongoId(objecId);
