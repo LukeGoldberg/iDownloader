@@ -12,5 +12,5 @@ about download.
 - using ```HTTP```'s power, ```Etag```, ```If-None_Match```, ```Last-Modified``` and ```If-Modified-Since``` to avoid download repeatedly;
 - throttle download speed, with ```RateLimiter``` in ```guava``` library.
 
-about performance.
+
 
