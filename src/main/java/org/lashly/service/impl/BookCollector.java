@@ -27,6 +27,8 @@ public class BookCollector implements CollectionService {
 		BookSearchDto bookSearchDto = new BookSearchDto();
 		BeanUtils.copyProperties(dto, bookSearchDto);
         List<BookDto> bookDto = bookDao.findBooks(bookSearchDto);
+        // save data here, on disk or db .etc
+        // save(...);
         SearchResultDto<BookDto> result = new SearchResultDto<>();
         result.setFileName("book");
         result.setSheetName("book sheet");

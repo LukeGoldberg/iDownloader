@@ -38,8 +38,8 @@ public class DownloadController {
 	@RequestMapping(value = "/file/{fileId}", method = {RequestMethod.POST, RequestMethod.HEAD}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Resource> download(
 			@PathVariable("fileId") String fileId,
-			@RequestHeader(IF_NONE_MATCH) String requestETagOpt,
-			@RequestHeader(IF_MODIFIED_SINCE) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date ifModifiedSinceOpt) {
+			@RequestHeader(name = IF_NONE_MATCH, required = false) String requestETagOpt,
+			@RequestHeader(name = IF_MODIFIED_SINCE, required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date ifModifiedSinceOpt) {
 		return fileDownloadService.findFile(fileId, requestETagOpt, ifModifiedSinceOpt);
 	}
 

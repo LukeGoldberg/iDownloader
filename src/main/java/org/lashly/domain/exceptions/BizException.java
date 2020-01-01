@@ -5,6 +5,8 @@ package org.lashly.domain.exceptions;
  */
 public class BizException extends RuntimeException {
 	
+	private static final long serialVersionUID = -1L;
+	
 	private String info;
 	
 	public BizException(String info) {
