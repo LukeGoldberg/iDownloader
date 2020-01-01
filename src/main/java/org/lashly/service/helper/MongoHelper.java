@@ -1,6 +1,5 @@
 package org.lashly.service.helper;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -35,7 +34,6 @@ public class MongoHelper {
 	 * @param dto dto
 	 * @return MongoDB ID
 	 */
-	@SuppressWarnings("unchecked")
 	public String generateFile(SearchResultDto dto) {
         String objectId = StringUtils.EMPTY;
         try {
