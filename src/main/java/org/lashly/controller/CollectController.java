@@ -1,5 +1,6 @@
 package org.lashly.controller;
 
+import org.lashly.domain.RespResult;
 import org.lashly.domain.dto.BookSearchDto;
 import org.lashly.domain.enums.CollectionEnum;
 import org.lashly.service.FileGenerateService;
@@ -25,8 +26,9 @@ public class CollectController {
 	}
 	
 	@RequestMapping(value = "book", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public void collectBooks(@RequestBody BookSearchDto bookSearchDto) {
+	public RespResult collectBooks(@RequestBody BookSearchDto bookSearchDto) {
 		fileGenerateService.generateFile(CollectionEnum.BOOK, bookSearchDto);
+		return RespResult.sendSuccess();
 	}
 
 }

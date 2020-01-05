@@ -22,8 +22,12 @@
 
     <select id="findCollectionRecords" resultMap="baseResultMap">
         select * from collection_record
-        order by create_time desc
+        order by id desc
         limit #{pageNumber, jdbcType=INTEGER}, #{pageSize, jdbcType=INTEGER}
+    </select>
+    
+    <select id="countCollectionRecords" resultType="java.lang.Integer">
+        select count(*) from collection_record
     </select>
 
 </mapper>
