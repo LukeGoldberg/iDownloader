@@ -28,4 +28,11 @@ public interface CollectionRecordDao {
 	 */
 	List<CollectionRecordDo> findCollectionRecords(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize);
 	
+	/**
+	 * count collection records
+	 * 
+	 * @return the number of collection records
+	 */
+	Integer countCollectionRecords();
+	
 }

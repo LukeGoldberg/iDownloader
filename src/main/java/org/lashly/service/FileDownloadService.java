@@ -6,6 +6,7 @@ import java.util.List;
 import org.lashly.dao.CollectionRecordDao;
 import org.lashly.domain.dos.CollectionRecordDo;
 import org.lashly.domain.dto.DownloadRecordListDto;
+import org.lashly.domain.dto.PagingListDto;
 import org.lashly.domain.exceptions.BizException;
 import org.lashly.service.helper.FileDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,15 @@ public class FileDownloadService {
      * @param dto download record list dto
      * * @return collection record list
      */
-	public List<CollectionRecordDo> listCollectionRecords(DownloadRecordListDto dto) {
-        return collectionRecordDao.findCollectionRecords(dto.getPageNumber(), dto.getPageSize());
+	public PagingListDto listCollectionRecords(DownloadRecordListDto dto) {
+		Integer count = collectionRecordDao.countCollectionRecords();
+		if (count == 0) {
+			return new PagingListDto();
+		}
+		PagingListDto result = new PagingListDto();
+		result.setCount(count);
+		result.setData(collectionRecordDao.findCollectionRecords(dto.getPageNumber(), dto.getPageSize()));
+		return result;
     }
 
 }

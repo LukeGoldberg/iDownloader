@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * iDownloader application
- *
  */
 @SpringBootApplication
 public class Downloader {
