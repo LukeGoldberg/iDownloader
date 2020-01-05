@@ -1,5 +1,6 @@
 package org.lashly.service.helper;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -100,7 +101,8 @@ public class FileDescriptor {
 	private InputStreamResource getFileResource() {
 		InputStream inputStream;
 		try {
-			inputStream = gridFsTemplate.getResource(gridFSFile).getInputStream();
+//			inputStream = gridFsTemplat(te.getResource(gridFSFile).getInputStream();
+			inputStream = new FileInputStream("/home/dc2-user/weibo.150929.all");
 		} catch (IllegalStateException | IOException e) {
 			throw new BizException("can not download now, try again later");
 		}
