@@ -10,9 +10,9 @@ import java.io.InputStream;
  */
 public class ThrottlingInputStream extends InputStream {
 
-	private static final int ONE_MB = 1024 * 1024 * 8;
+	private static final int ONE_MB = 1024 * 1024;
 
-	private static final int ONE_KB = 1024 * 8;
+	private static final int ONE_KB = 1024;
 	
 	private final InputStream target;
 	private final RateLimiter maxBytesPerSecond;
