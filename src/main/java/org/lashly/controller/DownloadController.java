@@ -38,7 +38,7 @@ public class DownloadController {
         return RespResult.sendData(fileDownloadService.listCollectionRecords(dto));
 	}
 	
-	@RequestMapping(value = "/file/{fileId}", method = {RequestMethod.GET, RequestMethod.HEAD}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/file/{fileId}", method = {RequestMethod.POST, RequestMethod.HEAD}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Resource> download(
 			@PathVariable("fileId") String fileId,
 			@RequestHeader(name = IF_NONE_MATCH, required = false) String requestETagOpt,
