@@ -1,4 +1,4 @@
-package org.lashly.domain.dto;
+package org.lashly.domain.vos;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,10 +8,16 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PagingListDto extends BaseDto {
+public class PagingListVo extends BaseVo {
 	
+	/**
+	 * count of data
+	 */
 	private Integer count;
 	
+	/**
+	 * data list
+	 */
 	private List<? extends Serializable> data;
 
 }

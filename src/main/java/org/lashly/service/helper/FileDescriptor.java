@@ -93,9 +93,9 @@ public class FileDescriptor {
 	}
 	
 	/**
-	 * get file's inputstream
+	 * get file's input stream
 	 * 
-	 * @return inputstream
+	 * @return input javastream
 	 */
 	private InputStreamResource getFileResource() {
 		InputStream inputStream;
@@ -104,8 +104,7 @@ public class FileDescriptor {
 		} catch (IllegalStateException | IOException e) {
 			throw new BizException("can not download now, try again later");
 		}
-		ThrottlingInputStream throttlingInputStream = new ThrottlingInputStream(inputStream);
-		return new InputStreamResource(throttlingInputStream);
+		return new InputStreamResource(new ThrottlingInputStream(inputStream));
 	}
 	
 	/**

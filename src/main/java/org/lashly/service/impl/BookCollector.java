@@ -1,20 +1,23 @@
 package org.lashly.service.impl;
 
+import java.util.List;
+
 import org.lashly.dao.BookDao;
-import org.lashly.domain.dto.BaseDto;
-import org.lashly.domain.dto.BookDto;
-import org.lashly.domain.dto.BookSearchDto;
-import org.lashly.domain.dto.SearchResultDto;
+import org.lashly.domain.dtos.BaseDto;
+import org.lashly.domain.dtos.BookDto;
+import org.lashly.domain.dtos.BookSearchDto;
+import org.lashly.domain.dtos.SearchResultDto;
 import org.lashly.service.CollectionService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class BookCollector implements CollectionService {
 
+	/**
+	 * book's dao
+	 */
     private BookDao bookDao;
 
     @Autowired
@@ -27,8 +30,6 @@ public class BookCollector implements CollectionService {
 		BookSearchDto bookSearchDto = new BookSearchDto();
 		BeanUtils.copyProperties(dto, bookSearchDto);
         List<BookDto> bookDto = bookDao.findBooks(bookSearchDto);
-        // save data here, on disk or db .etc
-        // save(...);
         SearchResultDto<BookDto> result = new SearchResultDto<>();
         result.setFileName("book");
         result.setSheetName("book sheet");

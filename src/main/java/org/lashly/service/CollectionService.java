@@ -1,7 +1,7 @@
 package org.lashly.service;
 
-import org.lashly.domain.dto.BaseDto;
-import org.lashly.domain.dto.SearchResultDto;
+import org.lashly.domain.dtos.BaseDto;
+import org.lashly.domain.dtos.SearchResultDto;
 
 /**
  * to collect data

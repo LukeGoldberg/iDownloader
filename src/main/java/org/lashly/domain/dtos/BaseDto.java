@@ -1,9 +1,9 @@
-package org.lashly.domain.dto;
+package org.lashly.domain.dtos;
 
 import java.io.Serializable;
 
 /**
- * base dto
+ * base data transfer object
  */
 public class BaseDto implements Serializable {
 

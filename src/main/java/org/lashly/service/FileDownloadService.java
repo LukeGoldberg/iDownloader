@@ -1,19 +1,20 @@
 package org.lashly.service;
 
 import java.util.Date;
-import java.util.List;
 
 import org.lashly.dao.CollectionRecordDao;
-import org.lashly.domain.dos.CollectionRecordDo;
-import org.lashly.domain.dto.DownloadRecordListDto;
-import org.lashly.domain.dto.PagingListDto;
+import org.lashly.domain.dtos.DownloadRecordListDto;
 import org.lashly.domain.exceptions.BizException;
+import org.lashly.domain.vos.PagingListVo;
 import org.lashly.service.helper.FileDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+/**
+ * file download	 
+ */
 @Service
 public class FileDownloadService {
 	
@@ -47,12 +48,12 @@ public class FileDownloadService {
      * @param dto download record list dto
      * * @return collection record list
      */
-	public PagingListDto listCollectionRecords(DownloadRecordListDto dto) {
+	public PagingListVo listCollectionRecords(DownloadRecordListDto dto) {
 		Integer count = collectionRecordDao.countCollectionRecords();
 		if (count == 0) {
-			return new PagingListDto();
+			return new PagingListVo();
 		}
-		PagingListDto result = new PagingListDto();
+		PagingListVo result = new PagingListVo();
 		result.setCount(count);
 		result.setData(collectionRecordDao.findCollectionRecords(dto.getPageNumber(), dto.getPageSize()));
 		return result;

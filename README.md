@@ -1,6 +1,6 @@
 # iDownloader
 
-this is a project used for collect data from some place and download them.
+this is a project used for collect data from database and download them in some format.
 
 ## about collection.
 

@@ -1,7 +1,7 @@
 package org.lashly.controller;
 
 import org.lashly.domain.RespResult;
-import org.lashly.domain.dto.BookSearchDto;
+import org.lashly.domain.dtos.BookSearchDto;
 import org.lashly.domain.enums.CollectionEnum;
 import org.lashly.service.FileGenerateService;
 import org.springframework.beans.factory.annotation.Autowired;

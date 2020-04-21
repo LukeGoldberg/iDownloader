@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import org.junit.Before;
 import org.junit.Test;
 import org.lashly.ApplicationTests;
-import org.lashly.domain.dto.BookSearchDto;
+import org.lashly.domain.dtos.BookSearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;

@@ -6,7 +6,7 @@ import static org.springframework.http.HttpHeaders.IF_NONE_MATCH;
 import java.util.Date;
 
 import org.lashly.domain.RespResult;
-import org.lashly.domain.dto.DownloadRecordListDto;
+import org.lashly.domain.dtos.DownloadRecordListDto;
 import org.lashly.service.FileDownloadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;

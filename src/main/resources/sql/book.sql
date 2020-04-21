@@ -3,4 +3,4 @@ create table book(
   book_name varchar(100) not null comment 'book name',
   primary key (id),
   index idx_book_name (book_name)
-)Engine=InnoDB default charset=utf8;
+)Engine=InnoDB default charset=utf8 comment 'books';

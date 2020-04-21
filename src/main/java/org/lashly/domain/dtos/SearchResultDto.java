@@ -1,9 +1,9 @@
-package org.lashly.domain.dto;
-
-import lombok.Data;
+package org.lashly.domain.dtos;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
+
+import lombok.Data;
 
 /**
  * search result's dto
@@ -11,7 +11,7 @@ import java.util.Collection;
 @Data
 public class SearchResultDto<T extends Serializable> {
 
-	private Collection<T> data;
+	private List<T> data;
 
 	private String fileName;
 

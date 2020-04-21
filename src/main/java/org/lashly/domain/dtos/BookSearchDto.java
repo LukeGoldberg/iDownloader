@@ -1,4 +1,4 @@
-package org.lashly.domain.dto;
+package org.lashly.domain.dtos;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotEmpty;
 
 /**
- * book's search dto
+ * book's search data transfer object
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

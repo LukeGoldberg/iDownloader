@@ -10,6 +10,7 @@ public class BizException extends RuntimeException {
 	private String info;
 	
 	public BizException(String info) {
+		super(info);
 		this.info = info;
 	}
 
