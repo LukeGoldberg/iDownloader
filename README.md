@@ -1,6 +1,6 @@
 # iDownloader
 
-this is a project used for collect data from database and download them in Excel format.
+this is a project used for collect data from database and download it in Excel format.
 
 ## about collection.
 
